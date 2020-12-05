@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-
+import UserCard from './UserCard';
 class App extends React.Component {
   constructor(){
     super();
@@ -8,7 +8,10 @@ class App extends React.Component {
   }
   render() {
     return (
-      <h1>Hello</h1>
+      <div className="container">
+        <UserCard/>
+      </div>
+      
         
     );
   }
