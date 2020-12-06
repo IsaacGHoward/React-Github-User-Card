@@ -5,9 +5,9 @@ import axios from 'axios';
 class App extends React.Component {
   constructor(){
     super();
-    this.state = { users: [], username:'IsaacGHoward'};
+    this.state = { users: [], username:'IsaacGHoward', searchQuery:''};
   }
-  componentDidMount(){
+  makeCalls(){
     axios.get(`https://api.github.com/users/${this.state.username}`)
     .then(res => {
       console.log(res);
@@ -25,9 +25,25 @@ class App extends React.Component {
       })
     )
   }
+  componentDidMount(){
+    this.makeCalls();
+  }
+  componentDidUpdate(prevProps, prevState){
+    if(this.state.username !== prevState.username){
+      this.setState({users : []});
+      this.makeCalls();
+    }
+      
+  }
+  search(){
+    this.setState({username: this.state.searchQuery, searchQuery: ''});
+  }
   render() {
     return (
       <div className="container">
+        <h1>Search a User</h1>
+        <input type="text" value={this.state.searchQuery} onChange={(e) => {this.setState({searchQuery: e.target.value})}}></input>
+        <button onClick={() => {this.setState({username: this.state.searchQuery, searchQuery: ''})}}>Search!</button>
         {
           this.state.users.map( user => {
             return <UserCard userdata={user}/>
